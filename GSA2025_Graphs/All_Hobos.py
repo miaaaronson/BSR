@@ -89,9 +89,23 @@ df_15 = raw_df_15[
         "Temperature , °C",
     ]
 ]
-# H16
-raw_df_16 = pd.read_csv("/Users/miaaaronson/Desktop/BSR/Data/H16_GSA.csv")
+
+# H16 (DNE)
+raw_df_16 = pd.read_excel(
+    "/Users/miaaaronson/Desktop/BSR/Data/BSR-H16 2025-03-21 10_16_29 EDT (Data EDT).xlsx"
+)
 df_16 = raw_df_16[
+    [
+        "Date-Time (EST/EDT)",
+        "Temperature , °C",
+    ]
+]
+
+# H23 (AIR TEMPERATURE AT MAIN BRANCH)
+raw_df_23 = pd.read_excel(
+    "/Users/miaaaronson/Desktop/BSR/Data/FM-Temp-21852523-CT 2025-03-19 10_47_18 EDT (Data EDT).xlsx"
+)
+df_23 = raw_df_23[
     [
         "Date-Time (EST/EDT)",
         "Temperature , °C",
@@ -108,6 +122,7 @@ df_13["Date-Time (EST/EDT)"] = pd.to_datetime(df_13["Date-Time (EST/EDT)"])
 df_14["Date-Time (EST/EDT)"] = pd.to_datetime(df_14["Date-Time (EST/EDT)"])
 df_15["Date-Time (EST/EDT)"] = pd.to_datetime(df_15["Date-Time (EST/EDT)"])
 df_16["Date-Time (EST/EDT)"] = pd.to_datetime(df_16["Date-Time (EST/EDT)"])
+df_23["Date-Time (EST/EDT)"] = pd.to_datetime(df_23["Date-Time (EST/EDT)"])
 
 
 df_5 = df_5[df_5["Date-Time (EST/EDT)"] >= "2024-09-01"]
@@ -142,6 +157,9 @@ y15 = df_15["Temperature , °C"]
 x16 = df_16["Date-Time (EST/EDT)"]
 y16 = df_16["Temperature , °C"]
 
+x23 = df_23["Date-Time (EST/EDT)"]
+y23 = df_23["Temperature , °C"]
+
 y1_smooth = y1.rolling(window=300, center=True).mean()
 y3_smooth = y3.rolling(window=300, center=True).mean()
 y4_smooth = y4.rolling(window=300, center=True).mean()
@@ -152,6 +170,7 @@ y13_smooth = y13.rolling(window=300, center=True).mean()
 y14_smooth = y14.rolling(window=300, center=True).mean()
 y15_smooth = y15.rolling(window=300, center=True).mean()
 y16_smooth = y16.rolling(window=300, center=True).mean()
+y23_smooth = y23.rolling(window=300, center=True).mean()
 
 plt.figure(1, figsize=(10, 6))
 plt.plot(x1, y1_smooth, label="H1", color="#f94144")
@@ -164,6 +183,7 @@ plt.plot(x13, y13_smooth, label="H13", color="#4d908e")
 plt.plot(x14, y14_smooth, label="H14", color="#577590")
 plt.plot(x15, y15_smooth, label="H14", color="#277da1")
 plt.plot(x16, y16_smooth, label="H16", color="#6d597a")
+plt.plot(x23, y23_smooth, label="H23 - Air Temperature", color="pink")
 plt.xlabel("Date")
 plt.ylabel("Temperature in °C")
 plt.legend()
